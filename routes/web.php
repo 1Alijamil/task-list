@@ -1,41 +1,40 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 use function GuzzleHttp\Promise\task;
 
 Route::get('/', function () {
+  //  dd('fff');
         return view('welcome');
-});
-Route::get('about', function () {
-    $name=request('name');
-   // return view('about')-with('name',$name);
-    return view('about',compact('name'));
-});
-Route::post('/store', function () {
-$name=request('name');
-    return view('about',compact('name'));
 });
 
 Route::get('tasks', function () {
-   $tasks =[
-       'task 1',
-       'task 2',
-       'task 3'
-   ];
-   return view('tasks',compact('tasks'));
+    $tasks=DB::table('tasks')->get() ;
+    //dd($tasks);0
+    return view('tasks',compact('tasks'));
 });
 
 Route::get('show/{id}', function ($id) {
+    $task=DB::table('tasks')->find($id);
+   // dd($task);
 
-    $tasks =[
-        'task 1',
-        'task 2',
-        'task 3'
-    ];
-    $task=$tasks[$id];
-    return view('show',compact('tasks'));
+    return view('show',compact('task'));
 
 });
+Route::get('app', function () {
+    $tasks = DB::table('tasks')->get();
+    return view('tode',compact('tasks'));
 
+});
+Route::post('store', function (Request $request) {
+    DB::table('tasks')->insert([
+    'title'=>$request->title
+    ]);
+    return redirect()->back();
+
+});
 
