@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<h1 > {{$task->title}} </h1>
+<h1 > {{$tasks}} </h1>
 
 </body>
 </html>
